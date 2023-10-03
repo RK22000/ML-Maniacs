@@ -3,7 +3,7 @@
 An average precision metric for event detection in time series and
 video.
 
-Gotten from : https://www.kaggle.com/code/metric/event-detection-ap/notebook
+Modified from : https://www.kaggle.com/code/metric/event-detection-ap/notebook
 
 """
 
@@ -11,6 +11,47 @@ import numpy as np
 import pandas as pd
 import pandas.api.types
 from typing import Dict, List, Tuple
+
+class Columns:
+    series_id_column_name='series_id'
+    time_column_name='step'
+    event_column_name='event'
+    score_column_name='score'
+
+
+def scoreIt(preds_df: pd.DataFrame, targs_df: pd.DataFrame):
+    """
+    Simple utility function to easily score any predictions produced by a model.
+    
+    Parameters
+    ----------
+
+    preds_df: A dataframe of predictions containing the following columns
+        series_id - The series id of the child on whose sleep record a prediction is being made
+        step - The time step at which an event prediction is being made
+        event - The event being predicted to occur at the time step
+        score - The confidence score of the prediction being made
+    
+    targs_df: A dataframe of ground truth events containing the following columns
+        series_id - The series id of the child on whose sleep record there is a ground truth event
+        step - The time step at which the ground truth event occurred
+        event - The ground truth event that occurred at the time step
+    """
+    tol = [12, 36, 60, 90, 120, 150, 180, 240, 300, 360]
+    tol = [float(i) for i in tol]
+    tols = {
+        'onset': tol,
+        'wakeup': tol
+    }
+    return score(
+        solution=targs_df,
+        submission=preds_df,
+        tolerances=tols,
+        series_id_column_name='series_id',
+        time_column_name='step',
+        event_column_name='event',
+        score_column_name='score',
+    )
 
 
 class ParticipantVisibleError(Exception):
