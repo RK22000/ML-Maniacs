@@ -24,3 +24,8 @@ python visual.py
 ```
 
 to see the visualization.
+
+As of right now the focus series_id that I'm visualizing is `08db4255286f`
+
+Another thing to check out in this branch would be the [visualizer.ipynb](visualizer.ipynb) notebook. Its last cell  has a demo for what I'm trying to make the every frame look like
+
