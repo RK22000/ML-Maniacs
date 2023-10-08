@@ -14,3 +14,7 @@
 3. Modify your branch
 4. Push your branch and create a Pull request to merge your branch into main
 5. 
+
+## About this banch
+
+In this branch I tried different way to organize and set up the dataset for easy data loading. Ultimately I've decided on loading and caching small section of the data from `train_series.parquet` as and when its needed. You can see this demonstrated in [dataloader_demo](dataloader_demo.ipynb)
