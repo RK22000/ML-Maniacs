@@ -17,4 +17,10 @@
 
 ## About this banch
 
-In this branch I tried different way to organize and set up the dataset for easy data loading. Ultimately I've decided on loading and caching small section of the data from `train_series.parquet` as and when its needed. You can see this demonstrated in [dataloader_demo](dataloader_demo.ipynb)
+In this branch I'm experimenting with different ways to visualize the acceleration data of a child to see if I'm able to see in the visualization when the child switches between waking and sleeping.
+
+As of right now the focus series_id that I'm visualizing is `08db4255286f`
+
+The notebook of interest here is [visualizer.ipynb](visualizer.ipynb) notebook. This is a recent visualization I produced on the data
+
+![](vids/activity.gif)
