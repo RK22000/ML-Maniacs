@@ -17,15 +17,10 @@
 
 ## About this banch
 
-In this branch I wrote some basic code to try and visualize a child's activity given their `series_id`. Run 
-
-```sh
-python visual.py
-```
-
-to see the visualization.
+In this branch I'm experimenting with different ways to visualize the acceleration data of a child to see if I'm able to see in the visualization when the child switches between waking and sleeping.
 
 As of right now the focus series_id that I'm visualizing is `08db4255286f`
 
-Another thing to check out in this branch would be the [visualizer.ipynb](visualizer.ipynb) notebook. Its last cell  has a demo for what I'm trying to make the every frame look like
+The notebook of interest here is [visualizer.ipynb](visualizer.ipynb) notebook. This is a recent visualization I produced on the data
 
+![](vids/activity.gif)

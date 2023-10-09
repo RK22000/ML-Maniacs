@@ -56,7 +56,7 @@ def all_series_ids():
 # %%
 import pandas as pd
 
-def acc_data_for_child(sid):
+def acc_data_for_child(sid, verbose=False):
     '''
     Extract, cache, and return the data for given child in the dataset. 
     If the cached `.parquet` file already exists for that child then just read and return from that cached file.
@@ -69,6 +69,7 @@ def acc_data_for_child(sid):
     -------
     `pandas.DataFrame` of the child's data
     '''
+    t = time.time()
     dir_path = os.path.join('data', 'parsed')
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
@@ -76,13 +77,15 @@ def acc_data_for_child(sid):
     path_clean = os.path.join(file_path, '.clean.txt')
     if os.path.exists(path_clean):
         df = pd.read_parquet(file_path)
-        # df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+        df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+        if verbose: print(f'loaded dataframe in {time.time()-t: .3f} seconds')
         return df
     dd.to_parquet(grouped_data.get_group(sid), file_path, write_index=False)
     with(open(path_clean, 'w')) as f:
         f.write('')
     df = pd.read_parquet(file_path)
-    # df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+    df['timestamp'] = pd.to_datetime(df['timestamp'], utc=True)
+    if verbose: print(f'loaded dataframe in {time.time()-t: .3f} seconds')
     return df
 
 def annotate_sid(acc_data, events, sid):

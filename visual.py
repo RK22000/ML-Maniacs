@@ -1,4 +1,7 @@
-'''Run this file to see a visualization of anglez and enmo of a child sleeping'''
+'''
+Run this file to see a visualization of anglez and enmo of a child sleeping
+(Deprecated) Use code from visualizer.ipynb instead
+'''
 # %% [markdown]
 # # Visualizing the data
 
