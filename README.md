@@ -17,10 +17,4 @@
 
 ## About this banch
 
-In this branch I'm experimenting with different ways to visualize the acceleration data of a child to see if I'm able to see in the visualization when the child switches between waking and sleeping.
-
-As of right now the focus series_id that I'm visualizing is `08db4255286f`
-
-The notebook of interest here is [visualizer.ipynb](visualizer.ipynb) notebook. This is a recent visualization I produced on the data
-
-![](vids/activity.gif)
+There's a lot of acceleration data. In this branch I'm gonna create filters to filter out acceleration data that is within a window near an event. This way we can focus on the transition points in our analysis.
