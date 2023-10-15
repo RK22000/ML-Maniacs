@@ -6,7 +6,7 @@ import matplotlib.animation as anim
 from matplotlib.collections import PathCollection
 import pandas as pd
 import numpy as np
-
+off = 0.1
 class Visualizaer1:
     def init_frame(ax: Axes, data: pd.DataFrame):
         '''
@@ -23,8 +23,8 @@ class Visualizaer1:
         xmax = data['anglez'].max()
         buff = (xmax-xmin)*0.1
         ax.set_xlim(xmin-buff, xmax+buff)
-        ymin = data['enmo'].min()
-        ymax = data['enmo'].max()
+        ymin = np.log(data['enmo']+off).min()
+        ymax = np.log(data['enmo']+off).max()
         buff = (ymax-ymin)*0.1
         ax.set_ylim(ymin-buff, ymax+buff)
         activity_text = ax.text((xmax+xmin)/2, ymax-data['enmo'].std(), "SOME TEXT", ha='center', weight='bold', va='bottom')
@@ -38,7 +38,7 @@ class Visualizaer1:
         data = data.loc[idx, ['step', 'anglez', 'enmo', 'activity']]
         # Set X, Y points
         x = data['anglez']
-        y = data['enmo']
+        y = np.log(data['enmo']+off)
         dat_len = len(data)
         mid = data['step'].iat[int(dat_len/2)]
         c = [i - mid for i in data['step']]
@@ -56,8 +56,9 @@ class Visualizaer1:
 class Visualizer2:
     def init_frame(ax:Axes, window):
         # fig.colorbar(ScalarMappable(np.linspace))
-        ax.axhline(0, color='k')
-        points = ax.scatter(x=[], y=[], c=[], cmap='plasma', vmin=0, vmax=0.2)
+        refline = ax.axhline(0, color='k')
+        points = ax.scatter(x=[], y=[], c=[], cmap='plasma')
+        points.autoscale()
         ax.set_xlabel('anglez')
         ax.set_xlim(-95, 95)
         ax.set_ylabel('Minute Offset from now')
@@ -65,7 +66,7 @@ class Visualizer2:
         ax.set_ylim(-1.1*(window/2), 1.3*(window/2))
         # ax.set_ylim(-100, 100)#(window/2))
         activity_text = ax.text(0, 1*window/2, "SOME\nTEXT", ha='center', va='bottom', weight='bold')
-        return [points, activity_text]
+        return [points, activity_text, refline]
     def draw_frame(ts: pd.Timestamp, full_data: pd.DataFrame, jitter:float, window, artists: list):
         art2=[]
         if type(ts) is not pd.Timestamp:
@@ -80,11 +81,15 @@ class Visualizer2:
         # Set Y points
         step = data.loc[data['timestamp']==ts, 'step'].iat[0]
         y = [(i-step)/12 for i in data['step']]
-        artists[0].set(offsets=list(zip(x,y)), array=data['enmo'])
+        artists[0].set(offsets=list(zip(x,y)), array=np.log(data['enmo']+0.5))
         art2.append(artists[0])
         txt = f"{ts}\n{data['activity'].iat[0]} => {data['activity'].iat[-1]}"
         artists[1].set_text(txt)
         art2.append(artists[1])
+
+        # Set Ref Line Color
+        artists[2].set_color('yellow' if data.loc[data['timestamp']==ts, 'activity'].iat[0] == 'Waking' else 'blue')
+        art2.append(artists[2])
         return art2
 
 
