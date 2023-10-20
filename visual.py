@@ -83,6 +83,10 @@ class Visualizer2:
         y = [(i-step)/12 for i in data['step']]
         artists[0].set(offsets=list(zip(x,y)), array=np.log(data['enmo']+0.5))
         art2.append(artists[0])
+
+        # Set title
+        # diff = pd.to_datetime(events['timestamp'], utc=True)-ts
+        # transition_point = events.loc[diff==min(abs(diff)), 'timestamp'].iat[0]
         txt = f"{ts}\n{data['activity'].iat[0]} => {data['activity'].iat[-1]}"
         artists[1].set_text(txt)
         art2.append(artists[1])
