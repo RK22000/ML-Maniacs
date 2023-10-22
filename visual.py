@@ -57,7 +57,7 @@ class Visualizer2:
     def init_frame(ax:Axes, window):
         # fig.colorbar(ScalarMappable(np.linspace))
         refline = ax.axhline(0, color='k')
-        points = ax.scatter(x=[], y=[], c=[], cmap='plasma')
+        points = ax.scatter(x=[], y=[], c=[], cmap='plasma', marker='.')
         points.autoscale()
         ax.set_xlabel('anglez')
         ax.set_xlim(-95, 95)
