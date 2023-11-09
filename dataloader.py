@@ -109,7 +109,23 @@ def annotate_sid(acc_data, events, sid):
     sleeping = sum([(acc_data['step'] >= onset) & (acc_data['step'] < wakeup) for onset, wakeup in zip(step[:-1:2], step[1::2])])
     acc_data['activity'] = ['Sleeping' if i else 'Waking' for i in sleeping]
 
+def load_sid(sid):
+    events = pd.read_csv('data/train_events.csv')
+    data = acc_data_for_child(sid)
+    annotate_sid(data, events, sid)
+    return data
 
+
+def windows(data, col, buffer=2):
+    df2 = dict()
+    for i in range(-buffer, buffer+1):
+        df2[f'{i}'] = data[col][max(0,i):len(data)+i]
+        df2[f'{i}'].index -= i
+                # series = data[col].iloc[max(0,i):len(data)+i].copy()
+                # series.index -= i
+        # df2[f'{i}'].iloc[max(0,i):len(data)+i] = series
+    df = pd.DataFrame(df2)
+    return df
 
 # # %%
 # c1 = acc_data_for_child('038441c925bb')
