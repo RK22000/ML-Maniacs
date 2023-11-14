@@ -1,0 +1,17 @@
+Terminal-1
+
+ssh -X 017436848@coe-hpc1.sjsu.edu
+srun -n 1 -N 1 -c 1 --pty /bin/bash
+
+Terminal-2
+
+ssh -X -L 10101:localhost:10101 017436848@coe-hpc1.sjsu.edu
+
+
+Terminal-1
+
+ssh -X -L 10101:localhost:10101 017436848@c3
+
+Terminal-2
+module load python3
+jupyter notebook --no-browser --port=10101
