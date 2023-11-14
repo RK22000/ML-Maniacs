@@ -103,13 +103,34 @@ def annotate_sid(acc_data, events, sid):
     sid: The series id from events being used to annotate
     '''
     event = events[events['series_id']==sid]['event']
+    a = event.copy().iloc[:-1]
+    b = event.copy().iloc[1:]
+    b.index -= 1
+    # Ensure none of the adjacent elements are the same event
+    assert sum(a==b) == 0
     step = events[events['series_id']==sid]['step']
     # Lets ensure that the events are all `onset then wakeup`
-    assert set([i==('onset', 'wakeup') for i in zip(event[:-1:2], event[1::2])]) == set([True])
+    # assert set([i==('onset', 'wakeup') for i in zip(event[:-1:2], event[1::2])]) == set([True])
     sleeping = sum([(acc_data['step'] >= onset) & (acc_data['step'] < wakeup) for onset, wakeup in zip(step[:-1:2], step[1::2])])
     acc_data['activity'] = ['Sleeping' if i else 'Waking' for i in sleeping]
 
+def load_sid(sid):
+    events = pd.read_csv('data/train_events.csv')
+    data = acc_data_for_child(sid)
+    annotate_sid(data, events, sid)
+    return data
 
+
+def windows(data, col, buffer=2):
+    df2 = dict()
+    for i in range(-buffer, buffer+1):
+        df2[f'{i}'] = data[col][max(0,i):len(data)+i]
+        df2[f'{i}'].index -= i
+                # series = data[col].iloc[max(0,i):len(data)+i].copy()
+                # series.index -= i
+        # df2[f'{i}'].iloc[max(0,i):len(data)+i] = series
+    df = pd.DataFrame(df2)
+    return df
 
 # # %%
 # c1 = acc_data_for_child('038441c925bb')
