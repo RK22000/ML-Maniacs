@@ -274,7 +274,7 @@ def score(
         score_column_name,
     ]:
         if column_name not in submission.columns:
-            raise ParticipantVisibleError(f"Submission must have column '{target_name}'.")
+            raise ParticipantVisibleError(f"Submission must have column '{column_name}'.")
 
     if not pd.api.types.is_numeric_dtype(submission[time_column_name]):
         raise ParticipantVisibleError(

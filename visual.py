@@ -6,6 +6,7 @@ import matplotlib.animation as anim
 from matplotlib.collections import PathCollection
 import pandas as pd
 import numpy as np
+from tqdm.notebook import tqdm
 off = 0.1
 class Visualizaer1:
     def init_frame(ax: Axes, data: pd.DataFrame):
@@ -97,3 +98,19 @@ class Visualizer2:
         return art2
 
 
+def scrol_predictions(preds, actu, index, window):
+    plt.figure()
+    plt.plot(actu, index)
+    plt.plot(preds, index, ',')
+    plt.axvline(0.5, linewidth=0.25)
+    def frame_preds(i):
+        plt.ylim(i, i+window)
+        return []
+    anime = anim.FuncAnimation(
+        plt.gcf(),
+        frame_preds,
+        tqdm([index.iloc[i] for i in range(0, len(index), 500)]),
+        interval=44,
+        blit=True
+    )
+    return anime
