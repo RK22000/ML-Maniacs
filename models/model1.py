@@ -1,5 +1,7 @@
 import numpy as np
-import dataloader
+# import dataloader
+import dataloader2
+import pandas as pd
 from tensorflow import keras
 from keras import layers
 import os
@@ -22,10 +24,11 @@ model.summary()
 model.load_weights(checkpoint_file)
 
 
-def getXandIndex(sid, padding_minutes=5):
-    data = dataloader.acc_data_for_child(sid)
+def getXandIndex(sid_file, padding_minutes=5):
+    # data = dataloader.acc_data_for_child(sid)
+    data = pd.read_parquet(sid_file)
     padding = padding_minutes*12 # 1 minute is 12 steps
-    angle_window = dataloader.windows(data, 'anglez', padding).dropna()
-    enmo_window  = dataloader.windows(data, 'enmo', padding).dropna()
+    angle_window = dataloader2.windows(data, 'anglez', padding).dropna()
+    enmo_window  = dataloader2.windows(data, 'enmo', padding).dropna()
     X = np.stack([angle_window.to_numpy(), enmo_window.to_numpy()], axis=1)
     return X,angle_window.index 
