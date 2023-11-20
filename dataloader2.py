@@ -1,6 +1,45 @@
 import os
 import pandas as pd
 
+
+good_sids = """08db4255286f
+0a96f4993bd7
+0cfc06c129cc
+1087d7b0ff2e
+10f8bc1f7b07
+18b61dd5aae8
+29c75c018220
+31011ade7c0a
+3452b878e596
+349c5562ee2c
+3664fe9233f9
+483d6545417f
+55a47ff9dc8a
+5acc9d63b5fd
+5f94bb3e1bed
+655f19eabf1e
+67f5fc60e494
+72bbd1ac3edf
+76237b9406d5
+7822ee8fe3ec
+89bd631d1769
+8e32047cbc1f
+939932f1822d
+9ee455e4770d
+a596ad0b82aa
+a9a2f7fac455
+a9e5f5314bcb
+af91d9a50547
+b364205aba43
+c535634d7dcd
+c6788e579967
+c68260cc9e8f
+ca730dbf521d
+d150801f3145
+d25e479ecbb7
+d515236bdeec
+d5e47b94477e""".split("\n")
+
 # Show training sids
 def train_sids_files():
     prefix = ["data", "sids"]
