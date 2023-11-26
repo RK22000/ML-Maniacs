@@ -16,10 +16,14 @@ model.summary()
 
 checkpoint_file = os.path.join('model1min','cp.ckpt')
 checkpoint_dir = os.path.dirname(checkpoint_file)
+print(checkpoint_dir)
 is_trained = lambda: os.path.exists(os.path.join(checkpoint_dir, 'checkpoint'))
 is_not_trained = lambda: not is_trained()
 if is_trained():
     model.load_weights(checkpoint_file)
+    print(f"Loaded weights from {checkpoint_dir}")
+else:
+    print(f"Did not load any weights")
 
 
 def getXandIndex(sid_file, ):

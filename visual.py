@@ -104,7 +104,7 @@ def scrol_predictions(preds, actu, index, window):
     plt.plot(preds, index, ',')
     plt.axvline(0.5, linewidth=0.25)
     def frame_preds(i):
-        plt.ylim(i, i+window)
+        plt.ylim(i-window/2, i+window/2)
         return []
     anime = anim.FuncAnimation(
         plt.gcf(),

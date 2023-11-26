@@ -1,0 +1,4 @@
+row_id,series_id,step,event,score
+0,038441c925bb,32,onset,1
+1,03d92c9f6f8a,23,onset,1
+2,03d92c9f6f8a,28,wakeup,1
