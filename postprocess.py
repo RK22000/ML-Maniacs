@@ -16,7 +16,7 @@ def smooth_spread(y, n=40*12):
     arr = [i/arr_sum for i in arr]
     return np.convolve(y, arr, 'same')
 def tabulate(preds, index, data):
-    _event, _step = [], []
+    _event, _step, _ts = [], [], []
     for a,b,i in zip(preds[:-1], preds[1:], index[1:]):
         step=False
         if a > 0.5 and b <= 0.5:
@@ -27,11 +27,23 @@ def tabulate(preds, index, data):
             step=True
         if step:
             _step.append(data.loc[i, 'step'])
+            _ts.append(data.loc[i, 'timestamp'])
     
     predictions = pd.DataFrame({
         "event": _event,
-        "step": _step
+        "step": _step,
+        "timestamp": _ts
     })
     # predictions["series_id"]=sid
     predictions["score"]=1
     return predictions
+
+
+def drop_intervals(table, interval):
+    drop = set()
+    steps = table.step
+    for (a,b,i,j) in (zip(steps[:-1], steps[1:], table.index, table.index[1:])):
+        if i not in drop and b-a < interval:
+            drop.add(i)
+            drop.add(j)
+    return table.drop(drop)
